@@ -2,6 +2,7 @@ import { ReturnBook } from "./ReturnBook";
 import {useEffect, useState} from "react";
 import BookModel from "../../../models/BookModel";
 import {SpinnerLoading} from "../../Utils/SpinnerLoading";
+import { Link } from "react-router-dom";
 
 export const Carousel = () => {
 
@@ -61,7 +62,7 @@ export const Carousel = () => {
 
     if (httpError){
         return (
-            <div className='conatainer m-5'>
+            <div className='container m-5'>
                 <p>{httpError}</p>
             </div>
         )
@@ -139,9 +140,9 @@ export const Carousel = () => {
         </div>
       </div>
       <div className="homepage-carousel-title mt-3">
-        <a href="#" className="btn btn-outline-secondary btn-lg">
+        <Link to="/search" className="btn btn-outline-secondary btn-lg">
           View More
-        </a>
+        </Link>
       </div>
     </div>
   );
