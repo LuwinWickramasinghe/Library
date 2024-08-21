@@ -1,21 +1,20 @@
-import { Redirect } from "react-router-dom";
-import { useOktaAuth } from "@okta/okta-react";
-import { SpinnerLoading } from "../layouts/Utils/SpinnerLoading";
-import OktaSignInWidget from "./OktaSigninWidget";
-
+import { Redirect } from 'react-router-dom';
+import { useOktaAuth } from '@okta/okta-react';
+import { SpinnerLoading } from '../layouts/Utils/SpinnerLoading';
+import OktaSignInWidget from './OktaSignInWidget';
 
 const LoginWidget = ({ config }) => {
-    const{ oktaAuth, authState } = useOktaAuth();
+    const { oktaAuth, authState } = useOktaAuth();
     const onSuccess = (tokens) => {
         oktaAuth.handleLoginRedirect(tokens);
     };
 
     const onError = (err) => {
-        console.log('Log in Error: ', err);
+        console.log('Login error: ', err);
     }
 
-    if(!authState) {
-        return(
+    if (!authState) {
+        return (
             <SpinnerLoading/>
         );
     }
