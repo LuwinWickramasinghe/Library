@@ -6,15 +6,16 @@ import { HomePage } from './layouts/Homepage/HomePage';
 import { SearchBooksPage } from './layouts/SearchBooksPage/SearchBooksPage';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { BookCheckoutPage } from './layouts/BookCheckoutPage/BookCheckoutPage';
+import Profile from './Auth/authProfile';
 import LoginButton from './Auth/authLogin';
-import AuthProfile from './Auth/authProfile';
 import LogoutButton from './Auth/authLogout';
+
 
 export const App = () => {
   return (
     <div className='d-flex flex-column min-vh-100'>
       <Navbar/>
-      <AuthProfile/>
+      <Profile/>
 
       <div className="flex-grow-1">
 
