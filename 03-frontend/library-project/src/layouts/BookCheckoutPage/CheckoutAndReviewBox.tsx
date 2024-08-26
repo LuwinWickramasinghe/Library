@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import BookModel from "../../models/BookModel"
 
-export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean, currentLoanCount: number, isAuthenticated: any, isCheckedOut: boolean }> = (props) => {
+export const CheckoutAndReviewBox: React.FC<{ book: BookModel | undefined, mobile: boolean, currentLoanCount: number, isAuthenticated: any, isCheckedOut: boolean,
+    checkoutBook:any
+ }> = (props) => {
     
     function buttonRender() {
         if(props.isAuthenticated){
             if(!props.isCheckedOut && props.currentLoanCount < 5){
                 return(
-                    <button className="btn btn-success btn-lg">Checkout</button>
+                    <button className="btn btn-success btn-lg" onClick={() => props.checkoutBook()}>Checkout</button>
                 ) 
             } else if(props.isCheckedOut){
                 return(<p><b>Book Checked out.</b></p>)
