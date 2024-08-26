@@ -1,6 +1,5 @@
 package com.luwan.springboot_lib.service;
 
-import com.luwan.springboot_lib.dao.BookRepositary;
 import com.luwan.springboot_lib.dao.ReviewRepository;
 import com.luwan.springboot_lib.entity.Review;
 import com.luwan.springboot_lib.requestmodels.ReviewRequest;
@@ -15,13 +14,10 @@ import java.time.LocalDate;
 @Transactional
 public class ReviewService {
 
-    private BookRepositary bookRepositary;
-
     private ReviewRepository reviewRepository;
 
     @Autowired
-    public ReviewService(BookRepositary bookRepositary, ReviewRepository reviewRepository) {
-        this.bookRepositary = bookRepositary;
+    public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
@@ -44,8 +40,10 @@ public class ReviewService {
 
         review.setDate(Date.valueOf(LocalDate.now()));
         reviewRepository.save(review);
+    }
 
-
-
+    public Boolean userReviewListed(String userEmail, Long bookId) {
+        Review validateReview = reviewRepository.findByUserEmailAndBookId(userEmail, bookId);
+        return validateReview != null;
     }
 }
