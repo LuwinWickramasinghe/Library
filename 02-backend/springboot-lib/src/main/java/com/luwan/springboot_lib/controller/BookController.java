@@ -2,10 +2,13 @@ package com.luwan.springboot_lib.controller;
 
 
 import com.luwan.springboot_lib.entity.Book;
+import com.luwan.springboot_lib.responsemodels.ShelfCurrentLoanResponse;
 import com.luwan.springboot_lib.service.BookService;
 import com.luwan.springboot_lib.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -17,6 +20,12 @@ public class BookController {
     @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/secure/currentloans")
+    public List<ShelfCurrentLoanResponse> currentLoans(@RequestHeader(value="Authorization") String token) throws Exception{
+        String userEmail= ExtractJWT.payloadJWTExtraction(token,"\"sub\"");
+        return bookService.currentLoans(userEmail);
     }
 
     @GetMapping("/secure/currentloans/count")
