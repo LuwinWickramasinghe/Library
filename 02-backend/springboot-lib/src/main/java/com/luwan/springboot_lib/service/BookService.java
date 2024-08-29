@@ -82,7 +82,7 @@ public class BookService {
             bookIdList.add(i.getId());
         }
 
-        List<Book> books = bookRepositary.findBooksByBookIds(bookIdList);
+        List<Book> books = bookRepositary.findAllByIdIn(bookIdList);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
