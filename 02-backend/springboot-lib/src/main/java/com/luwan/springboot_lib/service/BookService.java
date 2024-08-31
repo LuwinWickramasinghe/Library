@@ -106,4 +106,22 @@ public class BookService {
 
     }
 
+    public void returnBook(String userEmail, Long bookId) throws Exception {
+
+        Optional<Book> book = bookRepositary.findById(bookId);
+
+        Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
+
+        if (validateCheckout == null || book.isEmpty()) {
+            throw new Exception("There is no loaned book with this id or book does not exist");
+
+        }
+
+        book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
+
+        bookRepositary.save(book.get());
+
+        checkoutRepository.deleteById(validateCheckout.getId());
+    }
+
 }
