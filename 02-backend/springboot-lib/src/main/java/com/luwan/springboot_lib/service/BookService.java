@@ -124,4 +124,26 @@ public class BookService {
         checkoutRepository.deleteById(validateCheckout.getId());
     }
 
+    public void renewLoan(String userEmail, Long bookId) throws Exception {
+
+        Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
+
+        if (validateCheckout == null) {
+            throw new Exception("There is no loaned book with this id or book does not exist");
+        }
+
+        SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date d1 = sdFormat.parse(validateCheckout.getReturnDate());
+        Date d2 = sdFormat.parse(LocalDate.now().toString());
+
+        TimeUnit time = TimeUnit.DAYS;
+        if (d1.compareTo(d2)> 0 || d1.compareTo(d2) == 0 ){
+            validateCheckout.setReturnDate(LocalDate.now().plusDays(7).toString());
+        }
+
+        checkoutRepository.save(validateCheckout);
+
+    }
+
 }
