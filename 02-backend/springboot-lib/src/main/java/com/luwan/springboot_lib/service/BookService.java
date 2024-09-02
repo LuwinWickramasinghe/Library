@@ -3,8 +3,10 @@ package com.luwan.springboot_lib.service;
 
 import com.luwan.springboot_lib.dao.BookRepositary;
 import com.luwan.springboot_lib.dao.CheckoutRepository;
+import com.luwan.springboot_lib.dao.HistoryRepository;
 import com.luwan.springboot_lib.entity.Book;
 import com.luwan.springboot_lib.entity.Checkout;
+import com.luwan.springboot_lib.entity.History;
 import com.luwan.springboot_lib.responsemodels.ShelfCurrentLoanResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,9 +28,12 @@ public class BookService {
 
     private CheckoutRepository checkoutRepository;
 
-    public BookService(BookRepositary bookRepositary, CheckoutRepository checkoutRepository) {
+    private HistoryRepository historyRepository;
+
+    public BookService(BookRepositary bookRepositary, CheckoutRepository checkoutRepository, HistoryRepository historyRepository) {
         this.bookRepositary = bookRepositary;
         this.checkoutRepository = checkoutRepository;
+        this.historyRepository = historyRepository;
     }
 
     public Book checkoutBook(String userEmail, Long bookId) throws Exception {
@@ -130,6 +135,18 @@ public class BookService {
         bookRepositary.save(book.get());
 
         checkoutRepository.deleteById(validateCheckout.getId());
+
+        History history = new History(
+                userEmail,
+                validateCheckout.getCheckoutDate(),
+                LocalDate.now().toString(),
+                book.get().getTitle(),
+                book.get().getAuthor(),
+                book.get().getDescription(),
+                book.get().getImg()
+        );
+
+        historyRepository.save(history);
     }
 
     public void renewLoan(String userEmail, Long bookId) throws Exception {
