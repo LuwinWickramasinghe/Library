@@ -75,31 +75,39 @@ public class BookService {
         List<ShelfCurrentLoanResponse> shelfCurrentLoanResponses = new ArrayList<>();
 
         List<Checkout> checkoutList = checkoutRepository.findBooksByUserEmail(userEmail);
+        System.out.println(checkoutList);
+
 
         List<Long> bookIdList = new ArrayList<>();
 
         for (Checkout i : checkoutList) {
-            bookIdList.add(i.getId());
+            bookIdList.add(i.getBookId());
         }
 
         List<Book> books = bookRepositary.findAllByIdIn(bookIdList);
+        System.out.println(books.size());
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Book book : books) {
-            Optional<Checkout> checkout = checkoutList.stream().filter(
-                    x -> x.getBookId() == book.getId()).findFirst();
+            System.out.println(book.getId());
+            Optional<Checkout> checkout = checkoutList.stream()
+                    .filter(x -> x.getBookId() == book.getId()).findFirst();
+           System.out.println(checkout);
 
-            if(checkout.isPresent()) {
+            if (checkout.isPresent()) {
+                System.out.println("got here");
 
                 Date d1 = sdf.parse(checkout.get().getReturnDate());
                 Date d2 = sdf.parse(LocalDate.now().toString());
 
                 TimeUnit time = TimeUnit.DAYS;
 
-                long difference_In_Time = time.convert(d1.getTime() - d2.getTime(), TimeUnit.MILLISECONDS);
+                long difference_In_Time = time.convert(d1.getTime() - d2.getTime(),
+                        TimeUnit.MILLISECONDS);
 
-                shelfCurrentLoanResponses.add(new ShelfCurrentLoanResponse(book,(int) difference_In_Time));
+                shelfCurrentLoanResponses.add(new ShelfCurrentLoanResponse(book, (int) difference_In_Time));
             }
         }
         return shelfCurrentLoanResponses;
