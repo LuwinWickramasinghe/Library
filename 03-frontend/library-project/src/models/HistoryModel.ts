@@ -1,22 +1,22 @@
 class HistoryModel {
     id: number;
-    userEmail : String;
-    checkoutDate : String;
-    returnedDate : String;
-    title : String;
-    author : String;
-    description : String;
-    img : String;
+    userEmail : string;
+    checkoutDate : string;
+    returnedDate : string;
+    title : string;
+    author : string;
+    description : string;
+    img : string;
 
     constructor(
         id: number,
-        userEmail : String,
-        checkoutDate : String,
-        returnedDate : String,
-        title : String,
-        author : String,
-        description : String,
-        img : String
+        userEmail : string,
+        checkoutDate : string,
+        returnedDate : string,
+        title : string,
+        author : string,
+        description : string,
+        img : string
     ){
         this.id = id;
         this.userEmail = userEmail;
