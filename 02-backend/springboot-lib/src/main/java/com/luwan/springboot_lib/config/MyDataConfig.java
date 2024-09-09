@@ -1,6 +1,7 @@
 package com.luwan.springboot_lib.config;
 
 import com.luwan.springboot_lib.entity.Book;
+import com.luwan.springboot_lib.entity.Message;
 import com.luwan.springboot_lib.entity.Review;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -23,9 +24,11 @@ public class MyDataConfig implements RepositoryRestConfigurer {
 
         config.exposeIdsFor(Book.class);
         config.exposeIdsFor(Review.class);
+        config.exposeIdsFor(Message.class);
 
         disableHttpMethods(Book.class, config, theUnsupportedActions);
         disableHttpMethods(Review.class, config, theUnsupportedActions);
+        disableHttpMethods(Message.class, config, theUnsupportedActions);
 
         cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
 
