@@ -1,7 +1,7 @@
 package com.luwan.springboot_lib.controller;
 
 
-import com.luwan.springboot_lib.entity.Messages;
+import com.luwan.springboot_lib.entity.Message;
 import com.luwan.springboot_lib.service.MessagesService;
 import com.luwan.springboot_lib.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class MessagesController {
 
     @PostMapping("/secure/add/message")
     public void postMessage(@RequestHeader(value = "Authorization") String token,
-            @RequestBody Messages messageRequest) {
+            @RequestBody Message messageRequest) {
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         messagesService.postMessage(messageRequest, userEmail);
     }

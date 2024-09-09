@@ -2,7 +2,7 @@ package com.luwan.springboot_lib.service;
 
 
 import com.luwan.springboot_lib.dao.MessagesRepository;
-import com.luwan.springboot_lib.entity.Messages;
+import com.luwan.springboot_lib.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +18,8 @@ public class MessagesService {
         this.messagesRepository = messagesRepository;
     }
 
-    public void postMessage(Messages messageRequest, String userEmail) {
-        Messages message = new Messages(messageRequest.getTitle(), messageRequest.getQuestion());
+    public void postMessage(Message messageRequest, String userEmail) {
+        Message message = new Message(messageRequest.getTitle(), messageRequest.getQuestion());
         message.setUserEmail(userEmail);
         messagesRepository.save(message);
     }

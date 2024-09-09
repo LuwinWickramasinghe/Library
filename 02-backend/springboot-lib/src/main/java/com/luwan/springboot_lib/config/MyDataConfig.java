@@ -1,8 +1,8 @@
 package com.luwan.springboot_lib.config;
 
 import com.luwan.springboot_lib.entity.Book;
+import com.luwan.springboot_lib.entity.Message;
 import com.luwan.springboot_lib.entity.Review;
-import org.aspectj.bridge.Message;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
