@@ -1,5 +1,6 @@
 import { useOktaAuth } from "@okta/okta-react"
 import { useState } from "react";
+import MessageModel from "../../../models/MessageModel";
 
 export const PostMessage = () => {
 
@@ -9,13 +10,40 @@ export const PostMessage = () => {
     const [ isWarning, setIsWarning ] = useState(false);
     const [ isPostSuccess, setIsPostSuccess ] = useState(false);
 
+    async function submitQuestion() {
+        const url = `http://localhost:8080/api/messages/secure/add/message`;
+
+        if(authState?.isAuthenticated && title !== '' && question!== ''){
+            const messageReqModel: MessageModel = new MessageModel(title, question);
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(messageReqModel)
+            };
+
+            const postNewQuestionResponse = await fetch(url, requestOptions);
+            if(!postNewQuestionResponse.ok){
+                throw new Error('Somthing went wrong in posting new question')
+            }
+
+            setTitle('');
+            setQuestion('');
+            setIsWarning(false);
+            setIsPostSuccess(true);
+        } else{
+            setIsWarning(true);
+            setIsPostSuccess(false);
+        }
+    }
+
     return(
         <div className='card mt-3'>
-            {isPostSuccess &&
-                <div className='alert alert-success' role='alert'>
-                    Question added successfully
-                </div>
-            }
+            
             <div className='card-header'>
                 Ask question from BookShelf Admins
             </div>
@@ -24,6 +52,11 @@ export const PostMessage = () => {
                     {isWarning &&
                         <div className='alert alert-danger' role='alert'>
                             All fields must be filled out
+                        </div>
+                    }
+                    {isPostSuccess &&
+                        <div className='alert alert-success' role='alert'>
+                            Question added successfully
                         </div>
                     }
 
@@ -44,7 +77,7 @@ export const PostMessage = () => {
                         </textarea>
                     </div>
                     <div>
-                        <button type='button' className='btn btn-primary mt-3'>
+                        <button type='button' className='btn btn-primary mt-3' onClick={submitQuestion}>
                             Submit Question
                         </button>
                     </div>
