@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { PostMessage } from "./components/PostMessage";
+import { PostedMessages } from "./components/PostedMessages";
 
 export const MessagesPage= () => {
 
@@ -28,7 +29,7 @@ export const MessagesPage= () => {
                            <PostMessage/>
                     </div>
                     <div className='tab-pane fade' id='nav-message' role='tabpanel' aria-labelledby='nav-message-tab'>
-                        {isMessagesClick ? <p>Messages</p> : <></>}
+                        {isMessagesClick ? <PostedMessages/> : <></>}
                     </div>
                 </div>
             </div>
