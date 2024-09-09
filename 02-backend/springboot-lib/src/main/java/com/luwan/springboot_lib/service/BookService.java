@@ -1,7 +1,7 @@
 package com.luwan.springboot_lib.service;
 
 
-import com.luwan.springboot_lib.dao.BookRepositary;
+import com.luwan.springboot_lib.dao.BookRepository;
 import com.luwan.springboot_lib.dao.CheckoutRepository;
 import com.luwan.springboot_lib.dao.HistoryRepository;
 import com.luwan.springboot_lib.entity.Book;
@@ -24,20 +24,20 @@ import java.util.concurrent.TimeUnit;
 
 public class BookService {
 
-    private BookRepositary bookRepositary;
+    private BookRepository bookRepository;
 
     private CheckoutRepository checkoutRepository;
 
     private HistoryRepository historyRepository;
 
-    public BookService(BookRepositary bookRepositary, CheckoutRepository checkoutRepository, HistoryRepository historyRepository) {
-        this.bookRepositary = bookRepositary;
+    public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository, HistoryRepository historyRepository) {
+        this.bookRepository = bookRepository;
         this.checkoutRepository = checkoutRepository;
         this.historyRepository = historyRepository;
     }
 
     public Book checkoutBook(String userEmail, Long bookId) throws Exception {
-        Optional<Book> book = bookRepositary.findById(bookId);
+        Optional<Book> book = bookRepository.findById(bookId);
 
         Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
 
@@ -46,7 +46,7 @@ public class BookService {
         }
 
         book.get().setCopiesAvailable(book.get().getCopiesAvailable() - 1);
-        bookRepositary.save(book.get());
+        bookRepository.save(book.get());
 
         Checkout checkout = new Checkout(
                 userEmail,
@@ -89,7 +89,7 @@ public class BookService {
             bookIdList.add(i.getBookId());
         }
 
-        List<Book> books = bookRepositary.findAllByIdIn(bookIdList);
+        List<Book> books = bookRepository.findAllByIdIn(bookIdList);
         System.out.println(books.size());
 
 
@@ -121,7 +121,7 @@ public class BookService {
 
     public void returnBook(String userEmail, Long bookId) throws Exception {
 
-        Optional<Book> book = bookRepositary.findById(bookId);
+        Optional<Book> book = bookRepository.findById(bookId);
 
         Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
 
@@ -132,7 +132,7 @@ public class BookService {
 
         book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
 
-        bookRepositary.save(book.get());
+        bookRepository.save(book.get());
 
         checkoutRepository.deleteById(validateCheckout.getId());
 
