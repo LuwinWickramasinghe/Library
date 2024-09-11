@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import MessageModel from "../../../models/MessageModel";
 import { error } from "console";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
+import { Pagination } from "../../Utils/Pagination";
 
 export const AdminMessages = () => {
 
@@ -63,5 +64,20 @@ export const AdminMessages = () => {
 
     const paginate = (pageNumber : number) => setCurrentPage(pageNumber);
 
+    return(
+        <div className="mt-3">
+            {adminMessages.length > 0 ?
+                <>
+                    <h5>Pending Questions</h5>
+                    {adminMessages.map(message => (
+                        <p>{message.question}</p>
+                    ))}
+                </>
+                :
+                <h5>No pending questions</h5>
+        }
+        {totalPages > 0 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate}/>}
+        </div>
+    );
 
 }
