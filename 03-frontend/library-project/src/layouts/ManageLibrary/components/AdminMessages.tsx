@@ -4,6 +4,7 @@ import MessageModel from "../../../models/MessageModel";
 import { error } from "console";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { Pagination } from "../../Utils/Pagination";
+import { AdminResponse } from "./AdminResponse";
 
 export const AdminMessages = () => {
 
@@ -70,7 +71,7 @@ export const AdminMessages = () => {
                 <>
                     <h5>Pending Questions</h5>
                     {adminMessages.map(message => (
-                        <p>{message.question}</p>
+                        <AdminResponse message={message} key={message.id}/>
                     ))}
                 </>
                 :
