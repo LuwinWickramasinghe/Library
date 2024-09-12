@@ -1,10 +1,10 @@
 import { useOktaAuth } from "@okta/okta-react"
 import { useEffect, useState } from "react";
 import MessageModel from "../../../models/MessageModel";
-import { error } from "console";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 import { Pagination } from "../../Utils/Pagination";
 import { AdminResponse } from "./AdminResponse";
+import AdminMessageRequest from "../../../models/AdminMessageRequest";
 
 export const AdminMessages = () => {
 
@@ -18,6 +18,8 @@ export const AdminMessages = () => {
 
     const[currentPage, setCurrentPage ] = useState(1);
     const[totalPages, setTotalpages ] = useState(0);
+
+    const[buttonSubmit, setButtonSubmit ] = useState(false);
 
     useEffect(() => {
         const fetchAdminMessages = async () => {
@@ -48,7 +50,7 @@ export const AdminMessages = () => {
         })
         window.scroll(0, 0);
 
-    }, [authState, currentPage]);
+    }, [authState, currentPage, buttonSubmit]);
 
     if(isLoadingMessages){
         return(
@@ -63,6 +65,27 @@ export const AdminMessages = () => {
         );
     }
 
+    async function submitResponseToQuestion(id:number, response: string) {
+        const url = `http://localhost:8080/api/messages/secure/admin/message`;
+        if(authState && authState.isAuthenticated && id !== null && response !== ''){
+            const messageAdminRequestObject : AdminMessageRequest = new AdminMessageRequest(id , response);
+            const requestOptions = {
+                method : 'PUT',
+                headers : {
+                    Authorization : `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify(messageAdminRequestObject)
+            };
+
+            const messageAdminRequestResponse = await fetch(url, requestOptions)
+            if(!messageAdminRequestResponse.ok ){
+                throw new Error(" something went wrong when submit response")
+            }
+            setButtonSubmit(!buttonSubmit);
+        }
+    }
+
     const paginate = (pageNumber : number) => setCurrentPage(pageNumber);
 
     return(
@@ -71,7 +94,7 @@ export const AdminMessages = () => {
                 <>
                     <h5>Pending Questions</h5>
                     {adminMessages.map(message => (
-                        <AdminResponse message={message} key={message.id}/>
+                        <AdminResponse message={message} key={message.id} submitResponseToQuestion={submitResponseToQuestion}/>
                     ))}
                 </>
                 :
