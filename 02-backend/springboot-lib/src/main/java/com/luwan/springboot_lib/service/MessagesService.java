@@ -24,6 +24,7 @@ public class MessagesService {
     public void postMessage(Message messageRequest, String userEmail) {
         Message message = new Message(messageRequest.getTitle(), messageRequest.getQuestion());
         message.setUserEmail(userEmail);
+        message.setClosed(false);
         messagesRepository.save(message);
     }
 
