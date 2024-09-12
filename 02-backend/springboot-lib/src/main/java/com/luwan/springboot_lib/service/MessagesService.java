@@ -27,7 +27,7 @@ public class MessagesService {
         messagesRepository.save(message);
     }
 
-    public void putResponse(AdminQuestionRequest adminQuestionRequest, String userEmail) throws Exception {
+    public void putMessage(AdminQuestionRequest adminQuestionRequest, String userEmail) throws Exception {
         Optional<Message> message = messagesRepository.findById(adminQuestionRequest.getId());
         if (message.isEmpty()) {
             throw new Exception("Message not found");
