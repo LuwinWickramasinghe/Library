@@ -40,7 +40,7 @@ export const ManageLibraryPage = () => {
                         data-bs-target='#nav-add-book' type='button' role='tab' aria-controls='nav-add-book' 
                         aria-selected='false'
                     >
-                        <AddNewBook/>
+                        Add new Book
                     </button>
                     <button onClick={clickChangeBookQuantity} className='nav-link' id='nav-quantity-tab' data-bs-toggle='tab' 
                         data-bs-target='#nav-quantity' type='button' role='tab' aria-controls='nav-quantity' 
@@ -59,7 +59,7 @@ export const ManageLibraryPage = () => {
             <div className='tab-content' id='nav-tabContent'> 
                 <div className='tab-pane fade show active' id='nav-add-book' role='tabpanel'
                     aria-labelledby='nav-add-book-tab'>
-                        Add new book
+                        <AddNewBook/>
                 </div>
                 <div className='tab-pane fade' id='nav-quantity' role='tabpanel' aria-labelledby='nav-quantity-tab'>
                    {changeBookQuantityClick? <>Change Quantity</> : <></>}

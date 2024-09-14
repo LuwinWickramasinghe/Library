@@ -3,7 +3,7 @@ class AddBookRequest {
     author: string;
     description: string;
     copies: number;
-    categories: string;
+    category: string;
     img?: string;
 
     constructor(
@@ -11,14 +11,13 @@ class AddBookRequest {
         author: string,
         description: string,
         copies: number,
-        categories: string,
-        img: string,
+        category: string,
     ){
         this.title= title;
         this.author = author;
         this.description = description;
         this.copies = copies;
-        this.categories = categories;
+        this.category = category;
 
     }
 
