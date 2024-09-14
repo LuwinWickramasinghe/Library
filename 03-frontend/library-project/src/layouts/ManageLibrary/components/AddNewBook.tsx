@@ -1,5 +1,6 @@
 import { useOktaAuth } from "@okta/okta-react"
 import { useState } from "react";
+import AddBookRequest from "../../../models/AddBookRequest";
 
 export const AddNewBook = () => {
 
@@ -23,6 +24,41 @@ export const AddNewBook = () => {
         if(e.target.files[0]){
             getBase64(e.target.files[0]);
         }
+        
+    }
+
+    async function submitBook() {
+        const url = `http://localhost:8080/api/admin/secure/add/book`;
+        if( authState?.isAuthenticated && title !== '' && author !== '' && category !== 'Category' && description !== '' && copies >= 0){
+            const book: AddBookRequest = new AddBookRequest(title,author,description,copies,category);
+            book.img = selectedImage;
+            const requestOptions = {
+                method : "POST",
+                headers : {
+                    Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body : JSON.stringify(book)
+            };
+
+            const submitBookResponse = await fetch(url, requestOptions);
+            if(!submitBookResponse.ok){
+                throw new Error('Something went wrong');
+
+            }
+            setTitle('');
+            setAuthor('');
+            setDescription('');
+            setCopies(0);
+            setCategory('Category');
+            setSelectedImage(null);
+            setIsWarning(false);
+            setIsSuccess(true);
+        } else{
+            setIsWarning(true);
+            setIsSuccess(false);
+        }
+
         
     }
 
@@ -93,7 +129,7 @@ export const AddNewBook = () => {
                     </div>
                     <input type='file' onChange={e => base64ConversionForImages(e)} />
                     <div>
-                        <button type='button' className='btn btn-primary mt-3'>
+                        <button type='button' className='btn btn-primary mt-3' onClick={submitBook}>
                             Add Book
                         </button>
                     </div>
