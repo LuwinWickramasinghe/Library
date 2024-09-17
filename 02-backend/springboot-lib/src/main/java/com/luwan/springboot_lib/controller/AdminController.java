@@ -17,6 +17,17 @@ public class AdminController {
 
     }
 
+    @PutMapping("/secure/increase/book/quantity")
+    public void increaseBookQuantity(@RequestHeader(value = "Authorization") String token,
+                                     @RequestParam Long bookId) throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if (admin == null || !admin.equals("admin")){
+            throw new Exception("Access only for admins");
+        }
+
+        adminService.increaseBookQuantity(bookId);
+    }
+
     @PostMapping("/secure/add/book")
     public void postBook(@RequestHeader(value = "Authorization") String token,
                         @RequestBody AddBookRequest addBookRequest) throws Exception {
