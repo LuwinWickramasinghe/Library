@@ -1,6 +1,8 @@
 package com.luwan.springboot_lib.service;
 
 import com.luwan.springboot_lib.dao.BookRepository;
+import com.luwan.springboot_lib.dao.CheckoutRepository;
+import com.luwan.springboot_lib.dao.ReviewRepository;
 import com.luwan.springboot_lib.entity.Book;
 import com.luwan.springboot_lib.requestmodels.AddBookRequest;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,13 @@ import java.util.Optional;
 public class AdminService {
 
     private BookRepository bookRepository;
+    private ReviewRepository reviewRepository;
+    private CheckoutRepository checkoutRepository;
 
-    public AdminService(BookRepository bookRepository) {
+    public AdminService(BookRepository bookRepository, ReviewRepository reviewRepository, CheckoutRepository checkoutRepository) {
         this.bookRepository = bookRepository;
+        this.reviewRepository = reviewRepository;
+        this.checkoutRepository = checkoutRepository;
     }
 
     public void increaseBookQuantity(Long bookId) throws Exception {
@@ -51,5 +57,17 @@ public class AdminService {
         book.setCategory(addBookRequest.getCategories());
         book.setImg(addBookRequest.getImg());
         bookRepository.save(book);
+    }
+
+    public void deleteBook(Long bookId) throws Exception {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (book.isEmpty()) {
+            throw new Exception("Book not found");
+        }
+
+        bookRepository.delete(book.get());
+        checkoutRepository.deleteAllByBookId(bookId);
+        reviewRepository.deleteAllByBookId(bookId);
     }
 }
