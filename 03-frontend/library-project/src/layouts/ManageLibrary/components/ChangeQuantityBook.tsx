@@ -17,7 +17,7 @@ export const ChangeQuantityBook:React.FC<{book : BookModel}> = (props, key) => {
     }, []);
 
     async function increaseQuantity() {
-        const url = `http://localhost:8080/api/admin/secure/increase/book/qunatity?bookId=${props.book?.id}`
+        const url = `http://localhost:8080/api/admin/secure/increase/book/quantity?bookId=${props.book?.id}`
         const requestOptions = {
             method : "PUT",
             headers : {
@@ -34,7 +34,7 @@ export const ChangeQuantityBook:React.FC<{book : BookModel}> = (props, key) => {
     }
 
     async function decreaseQuantity() {
-        const url = `http://localhost:8080/api/admin/secure/decrease/book/qunatity?bookId=${props.book?.id}`
+        const url = `http://localhost:8080/api/admin/secure/decrease/book/quantity?bookId=${props.book?.id}`
         const requestOptions = {
             method : "PUT",
             headers : {
